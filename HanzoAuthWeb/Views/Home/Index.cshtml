@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@if (string.IsNullOrEmpty(ViewBag.Url) == false)
+{
+    <h2>Please click below link to authorize via AAD</h2>
+    <a href="@Html.Raw(ViewBag.Url)">Authorization Link for Azure Active Directory</a>
+}
+else
+{
+
+    using (Html.BeginForm())
+    {
+        <h2>Plase input below info</h2>
+        <table>
+            <thead></thead>
+            <tbody>
+                <tr><td>tenantId</td><td><input type="text" name="tenantId" placeholder="your tenantid. e.g. xxxxxxx.onmicrosoft.com" style="width:500px; max-width:500px;" /></td></tr>
+                <tr><td>client_id</td><td><input type="text" name="clientId" placeholder="your applicationid. e.g. xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" style="width:500px; max-width:500px;" /></td></tr>
+                <tr><td>client_secret</td><td><input type="text" name="clientSecret" placeholder="your key via Azure AD of portal" style="width:500px; max-width:500px;" /></td></tr>
+                <tr><td>redirect_uri</td><td><input type="text" name="redirectUri" placeholder="http://xxxxxxxxxxxxxxxxxxxxxxx.azurewebsites.net/" style="width:500px; max-width:500px;" /></td></tr>
+                <tr><td>resource</td><td><input type="text" name="resource" value="https://management.core.windows.net/" style="width:500px; max-width:500px;" /></td></tr>
+            </tbody>
+        </table>
+        <input type="submit" value="Authorization">
+    }
+}

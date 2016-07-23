@@ -1,0 +1,36 @@
+﻿@model AzureNinjaAuthWebApp.Models.AADResponse
+
+@{
+    ViewBag.Title = "Authorized";
+}
+
+@if (Session["client_id"] != null)
+{
+    <h2>Your input info</h2>
+    <div>@Session["redirect_uri"]</div>
+    <div>@Session["client_id"]</div>
+    <div>@Session["client_secret"]</div>
+    <div>@Session["resource"]</div>
+}
+
+@if (Model != null)
+{
+    <h2>Your authorized info</h2>
+    <table border="1" style="width:800px;">
+        <thead><tr><th>Key</th><th>Value</th></tr></thead>
+        <tbody>
+            <tr><td>access_token</td><td>@Model.access_token</td></tr>
+            <tr><td>expires_in</td><td>@Model.expires_in</td></tr>
+            <tr><td>ext_expires_in</td><td>@Model.ext_expires_in</td></tr>
+            <tr><td>id_token</td><td>@Model.id_token</td></tr>
+            <tr><td>not_before</td><td>@Model.not_before</td></tr>
+            <tr><td>refresh_token</td><td>@Model.refresh_token</td></tr>
+            <tr><td>resource</td><td>@Model.resource</td></tr>
+            <tr><td>scope</td><td>@Model.scope</td></tr>
+            <tr><td>token_type</td><td>@Model.token_type</td></tr>
+        </tbody>
+    </table>
+
+    <h2>Native Response</h2>
+    @ViewBag.RawMessage
+}
