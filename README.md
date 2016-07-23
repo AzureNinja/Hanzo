@@ -15,7 +15,7 @@ Input
 - tenantId:your tenantid. e.g. xxxxxxx.onmicrosoft.com
 - client_id: your applicationid. e.g. xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 - client_secret: your key via Azure AD of portal
-- redirect_uri: http://xxxxxxxxxxxxxxxxxxxxxxx.azurewebsites.net/
+- redirect_uri: http://xxxxxxxxxxxxxxxxxxxxxxx.azurewebsites.net/Home/Authorized
 
 Output
 - Your tenant AccessToken
@@ -29,5 +29,5 @@ Output
 5. Setup "Keys" to take "client_secret" at CONFIGURE tab of your added web application. This key info is shown only one time, and you can use this as "client_secret".
 6. Now you can take tenantId, client_id, client_secret and redirect_uri at CONFIGURE tab of your added web application.
 
-# Proxy
+## Proxy
 Now under writing...
