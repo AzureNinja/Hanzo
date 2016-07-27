@@ -7,6 +7,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hanzo", "Hanzo\Hanzo.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HanzoAuthWeb", "HanzoAuthWeb\HanzoAuthWeb.csproj", "{AA43AA3A-A689-47CC-A8AD-059B4CB68684}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HanzoProxyAPI", "HanzoProxyAPI\HanzoProxyAPI.csproj", "{4829BEA4-CD97-4CF9-98EB-7449E771B6BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HanzoProxyClient", "HanzoProxyClient\HanzoProxyClient.csproj", "{7F3DE3FE-3516-428D-82A8-22391DEDC2F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HanzoProxyCmd", "HanzoProxyCmd\HanzoProxyCmd.csproj", "{A0DC8320-883C-4F18-98E5-4AC3D6AE33B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +27,18 @@ Global
 		{AA43AA3A-A689-47CC-A8AD-059B4CB68684}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA43AA3A-A689-47CC-A8AD-059B4CB68684}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA43AA3A-A689-47CC-A8AD-059B4CB68684}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4829BEA4-CD97-4CF9-98EB-7449E771B6BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4829BEA4-CD97-4CF9-98EB-7449E771B6BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4829BEA4-CD97-4CF9-98EB-7449E771B6BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4829BEA4-CD97-4CF9-98EB-7449E771B6BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F3DE3FE-3516-428D-82A8-22391DEDC2F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F3DE3FE-3516-428D-82A8-22391DEDC2F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F3DE3FE-3516-428D-82A8-22391DEDC2F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F3DE3FE-3516-428D-82A8-22391DEDC2F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0DC8320-883C-4F18-98E5-4AC3D6AE33B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0DC8320-883C-4F18-98E5-4AC3D6AE33B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0DC8320-883C-4F18-98E5-4AC3D6AE33B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0DC8320-883C-4F18-98E5-4AC3D6AE33B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
