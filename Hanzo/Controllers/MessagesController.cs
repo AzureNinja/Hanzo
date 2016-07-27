@@ -14,33 +14,38 @@ namespace Hanzo
     [BotAuthentication]
     public class MessagesController : ApiController
     {
-        /// <summary>
-        /// POST: api/Messages
-        /// Receive a message from a user and reply to it
-        /// </summary>
+       // static BotData userData;
+       // static StateClient stateClient;
+
         public async Task<HttpResponseMessage> Post([FromBody]Activity activity)
         {
-            BotData userData = await activity.GetStateClient().BotState.GetUserDataAsync(activity.ChannelId, activity.From.Id);
-            var subscriptionId = userData.GetProperty<string>("SubscriptionId");
-            var accessToken = userData.GetProperty<string>("AccessToken");
+            /*
+            if(userData == null)
+            {
+                userData = await activity.GetStateClient().BotState.GetUserDataAsync(activity.ChannelId, activity.From.Id);
+                // Initialization
+                stateClient = activity.GetStateClient();
+                userData.SetProperty<int>("AuthProcess", 0);
+                stateClient.BotState.SetUserData(activity.ChannelId, activity.From.Id, userData);
+            }*/
+//            StateClient stateClient = activity.GetStateClient();
+//            BotData userData = await stateClient.BotState.GetUserDataAsync(activity.ChannelId, activity.From.Id);
+
 
             if (activity.Type == ActivityTypes.Message)
             {
+                await Conversation.SendAsync(activity, () => new HanzoDialog(activity));
                 // TODO: This app use HanzoAuthDialog before setup Subscriptionid and AccessToken. Just after setup them, bot enumlator sometimes mistake here "if" process.
-                if (string.IsNullOrEmpty(subscriptionId) == false && string.IsNullOrEmpty(accessToken) == false)
-                    await Conversation.SendAsync(activity, () => new HanzoDialog());
-                else
-                    await Conversation.SendAsync(activity, HanzoAuthDialog.MakeDialog);
-
-                /*
-                ConnectorClient connector = new ConnectorClient(new Uri(activity.ServiceUrl));
-                // calculate something for us to return
-                int length = (activity.Text ?? string.Empty).Length;
-
-                // return our reply to the user
-                Activity reply = activity.CreateReply($"You sent {activity.Text} which was {length} characters");
-                await connector.Conversations.ReplyToActivityAsync(reply);
-                */
+/*                if (string.IsNullOrEmpty(subscriptionId) == false && string.IsNullOrEmpty(accessToken) == false)
+                {
+                    flg = true;
+                    await Conversation.SendAsync(activity, () => new HanzoDialog(activity));
+                } else
+                {
+                    if(flg == false) await Conversation.SendAsync(activity, HanzoAuthDialog.MakeDialog);
+                    else await Conversation.SendAsync(activity, () => new HanzoDialog(activity));
+                }
+*/
             }
             else
             {
