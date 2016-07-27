@@ -6,6 +6,8 @@ using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Luis.Models;
 using System.Configuration;
 using Microsoft.Bot.Connector;
+using System.Web.Http;
+using HanzoProxyClient;
 
 namespace Hanzo
 {
@@ -17,13 +19,40 @@ namespace Hanzo
         private const string BUILTIN_DATE = "builtin.datetime.date";
         private const string BUILTIN_TIME = "builtin.datetime.time";
         private const string BUILTIN_SET = "builtin.datetime.set";
+        private Activity activity;
+        private StateClient stateClient = null;
+        //private BotData userData = null;
+        //private IDialogContext context = null;
+        private static string subscriptionId = string.Empty;
+        private static string accessToken = string.Empty;
+        private static int num = 0;
+        private string _apiVersion = ConfigurationManager.AppSettings["apiVersion"] ?? "";
+        private string _apiKey = ConfigurationManager.AppSettings["apiKey"] ?? "";
+        private string _proxyServerUrl = ConfigurationManager.AppSettings["proxyServerUrl"] ?? "";
+        private static Client client = null;
 
-        public async Task StartAsync(IDialogContext context)
+        public HanzoDialog(Activity ac)
         {
-            // context.Wait(MessageReceivedAsync);// See the AuthBot sample on GitHub
+            activity = ac;
+            if (activity != null) stateClient = activity.GetStateClient();
+            //stateClient = sc;
+            //userData = ud;
+            //userData = stateClient.BotState.GetUserData(activity.ChannelId, activity.From.Id);
+            // userData.SetProperty<bool>("SentGreeting", false);
+            //userData.SetProperty<int>("AuthProcess", 0); // 0: Not authenticated, 1: in the mid of auth process, 2: auth completed
+            //stateClient.BotState.SetUserData(activity.ChannelId, activity.From.Id, userData);
         }
 
-        //private void 
+        public async Task StartAsync(IDialogContext con)
+        {
+
+        }
+
+        private async Task sendMessage(IDialogContext context, string msg)
+        {
+            await context.PostAsync(msg);
+            context.Wait(MessageReceived);
+        }
 
         [LuisIntent("Start")]
         public async Task Start(IDialogContext context, LuisResult result)
@@ -69,7 +98,8 @@ namespace Hanzo
 
             if (!string.IsNullOrEmpty(entity))
             {
-                await context.PostAsync($"Here you go. See the list below:");
+                string msg = HanzoCmd.GetVmListCommand(client);
+                await context.PostAsync(msg);
             }
             else
             {
@@ -112,26 +142,59 @@ namespace Hanzo
         [LuisIntent("")]
         public async Task None(IDialogContext context, LuisResult result)
         {
-            string message = string.Empty;
+            string message = "Sorry. I do not understand what you asked me. Please try again.";
             string query = result.Query;
 
-            if (!string.IsNullOrEmpty(query))
+            if(string.IsNullOrEmpty(query))
             {
-                // login process are written in 
-                //if (query.Equals("login"))
-                //{
-                //    message = $"[Go to login procedure...]";
-                //}
-                //else
-                if (query.Equals("logout"))
-                {
-                    message = $"You are sucessfully logged out.";
-                }
-                else
-                {
-                    message = $"Sorry; I do not get what you want me to do. Try again.";
-                }
+                await context.PostAsync(message);
+                context.Wait(MessageReceived);
+                return;
             }
+
+            //BotData userData = await stateClient.BotState.GetUserDataAsync(activity.ChannelId, activity.From.Id);
+            //int num = userData.GetProperty<int>("AuthProcess");
+            // Check authentication status -> 0: Not authenticated, 1: waiting for subscription id, 2: waiting for access token, 3: auth completed
+
+            switch (num)
+            {
+                case 0:
+                    message = "Welcome to Hanzo! Please enter your subscription id to get started.";
+                    break;
+                case 1:
+                    subscriptionId = query;
+                    message = $"Your subscription id is {subscriptionId}. Then, you should enter the associated access token with the subscription id.";
+                    break;
+                case 2:
+                    accessToken = query;
+                    message = "Thank you. You are now ready to access to your account.";
+
+                    client = ClientBuilder.GetClientInstance(subscriptionId, accessToken,
+                        new Config(
+                            _apiKey,
+                            _apiVersion,
+                            _proxyServerUrl)
+                            );
+
+                    break;
+                case 3:
+                    break;
+                default: break;
+            }
+            num++;
+
+            if(query.Equals("ls"))
+            {
+                message = subscriptionId + ": " + accessToken;
+            }
+
+/*            if(num < 3)
+            {
+                userData.SetProperty<int>("AuthProcess", num++);
+                //stateClient.BotState.SetUserData(activity.ChannelId, activity.From.Id, userData);
+                await stateClient.BotState.SetUserDataAsync(activity.ChannelId, activity.From.Id, userData);
+            }
+*/
 
             await context.PostAsync(message);
             context.Wait(MessageReceived);
